@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Hiệu Ứng Rơi Chữ & Bật Nhạc Khi Click</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    body {
+      margin: 0;
+      background: linear-gradient(45deg, #111, #222);
+      overflow: hidden;
+      height: 100vh;
+      font-family: 'Arial', sans-serif;
+      cursor: pointer;
+    }
+
+    .falling-text {
+      position: absolute;
+      white-space: nowrap;
+      font-weight: 900;
+      opacity: 0.95;
+      text-shadow:
+        0 0 3px #fff,
+        0 0 5px #fff,
+        0 0 10px #ff00ff,
+        0 0 20px #00ffff;
+      animation: fall linear forwards;
+    }
+
+    @keyframes fall {
+      0% {
+        transform: translateY(-50px);
+        opacity: 0;
+      }
+      10% {
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh);
+        opacity: 0;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .falling-text {
+        font-size: 18px !important;
+      }
+    }
+
+    .click-note {
+      color: #fff;
+      position: absolute;
+      top: 50%;
+      width: 100%;
+      text-align: center;
+      transform: translateY(-50%);
+      font-size: 24px;
+      opacity: 0.8;
+    }
+  </style>
+</head>
+<body>
+
+<div class="click-note">🎁 Yêu em 🌹🎁</div>
+
+<audio id="bg-music" loop>
+  <source src="happy-birthday.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+  const texts = [
+    '🎂 Happy Birthday 🎂',
+    '💖 Yêu Nhau Tới Già 💖',
+    '✨ My Love ✨',
+    '❤️ I Love You ❤️',
+    '🎁 Chúc Mừng Sinh Nhật 🎁',
+    '📅 05 - 12 - 2025 📅',
+    '💕 Anh Yêu Em 💕',
+    '🌹 Bên Nhau Mãi Mãi 🌹'
+  ];
+
+  const colors = ['#ff4081', '#00ffff', '#ffff00', '#00ff66', '#66ccff', '#ff6600', '#ffffff', '#ff00ff'];
+
+  function createFallingText() {
+    const text = document.createElement('div');
+    text.classList.add('falling-text');
+    text.innerText = texts[Math.floor(Math.random() * texts.length)];
+    text.style.color = colors[Math.floor(Math.random() * colors.length)];
+
+    const fontSize = window.innerWidth > 768 ? (28 + Math.random() * 20) : (18 + Math.random() * 6);
+    text.style.fontSize = fontSize + 'px';
+
+    text.style.left = Math.random() * window.innerWidth + 'px';
+    text.style.animationDuration = (4 + Math.random() * 3) + 's';
+    document.body.appendChild(text);
+
+    setTimeout(() => {
+      text.remove();
+    }, 10000);
+  }
+
+  setInterval(createFallingText, 250);
+
+  const bgMusic = document.getElementById('bg-music');
+  const clickNote = document.querySelector('.click-note');
+
+  document.body.addEventListener('click', () => {
+    bgMusic.play();
+    clickNote.style.display = 'none';
+  });
+</script>
+
+</body>
+</html>
